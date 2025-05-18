@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  ghostfox:
+    build: .
+    container_name: ghostfox-v4
+    hostname: ghostfox
+    restart: unless-stopped
+    ports:
+      - "5901:5901"
+    volumes:
+      - ./vpn:/vpn:ro
+      - ./scripts:/scripts:ro
+      - ./browser-profile:/home/ghostfox/.config/chromium/Default
+    environment:
+      - DISPLAY=:1
+    shm_size: "512mb"
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - ghostfox-net
+
+networks:
+  ghostfox-net:
+    driver: bridge

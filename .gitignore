@@ -1,0 +1,21 @@
+
+# Docker
+*.img
+*.log
+*.pid
+*.sock
+*.tar
+
+# Logs
+*.log
+
+# VPN secrets
+vpn/credentials.txt
+
+# Cache
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
