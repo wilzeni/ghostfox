@@ -1,13 +1,18 @@
 # Ghostfox v4.3
 
-Ghostfox é um ambiente containerizado para navegação web segura através de VPN, com interface gráfica acessível via VNC. A versão 4.3 introduz melhorias de conectividade, simplificação de permissões e ajustes na arquitetura interna para maior estabilidade.
+Ghostfox é um container Docker que oferece um ambiente seguro para navegação web via navegador Chromium, utilizando VPN e acesso remoto por VNC.
 
-## 🆕 Novidades da Versão 4.3
+Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez, estabilidade e replicabilidade sem conhecimento técnico por parte do usuário final.
 
-- 🧩 **TurboVNC com interface aberta:** agora configurado com `-interface 0.0.0.0` via supervisord, permitindo conexões externas com maior compatibilidade.
-- 👤 **Execução como root:** não é mais criado um usuário `ghostfox`; todo o sistema do container roda sob o usuário root para evitar conflitos de permissões e facilitar integrações.
-- 🔒 **VPN com permissão para tun:** o container garante a criação da interface `tun0`, garantindo o roteamento de rede via VPN.
-- 🔁 **Padrão de configuração mantido:** arquivos `connection.ovpn` e `credentials.txt` continuam sendo o método principal de configuração da conexão VPN, facilitando compatibilidade com versões anteriores.
+---
+
+## 🆕 Novidades da versão 4.3
+
+- 🔁 **Xvnc no lugar de vncserver** para estabilidade no supervisord
+- 🔐 **Execução como root**, eliminando problemas de permissões
+- 🌐 **VPN continua utilizando arquivos `connection.ovpn` e `credentials.txt`**
+- 🧠 **Rota local automática** adicionada no `start.sh` para manter o acesso ao VNC após conexão VPN
+- 📦 **Estrutura mais limpa**, com logs centralizados em `/var/log`
 
 ---
 
@@ -17,68 +22,77 @@ Ghostfox é um ambiente containerizado para navegação web segura através de V
 ghostfox-v4.3/
 ├── docker-compose.yml
 ├── Dockerfile
+├── supervisord.conf
+├── README.md
 ├── scripts/
-│   ├── start_vnc.sh
-│   ├── start_vpn.sh
-│   └── check_vpn.sh
+│   ├── check_vpn.sh
+│   └── start.sh
 ├── vpn/
 │   ├── connection.ovpn
 │   └── credentials.txt
-├── supervisord.conf
-└── README.md
 ```
 
 ---
 
-## 🚀 Instruções Rápidas
+## 🚀 Instalação e Execução
 
-1. **Clonar o projeto**
+1. **Clone ou extraia o projeto**
+
 ```bash
-git clone https://github.com/seuusuario/ghostfox-v4.3.git
+git clone https://github.com/seuprojeto/ghostfox-v4.3.git
 cd ghostfox-v4.3
 ```
 
-2. **Adicionar arquivos da VPN**
-- Copie seu arquivo `.ovpn` para `vpn/connection.ovpn`
-- Copie suas credenciais para `vpn/credentials.txt` no formato:
-  ```
-  usuarioVPN
-  senhaVPN
-  ```
+2. **Adicione os arquivos de VPN**
 
-3. **Buildar a imagem**
-```bash
-docker compose build
+- Coloque o seu `.ovpn` dentro da pasta `vpn/` como `connection.ovpn`
+- Crie o arquivo `credentials.txt` contendo:
+```
+usuarioVPN
+senhaVPN
 ```
 
-4. **Subir o container**
+3. **(Opcional) Ajuste a faixa de rede local**
+
+No arquivo `scripts/start.sh`, altere a linha:
 ```bash
+LOCAL_NETWORK="192.168.0.0/24"
+```
+> Substitua pela faixa da VLAN que usará para acessar o container (ex: `192.168.1.0/24` ou `10.0.0.0/24`)
+
+4. **Build e execução**
+
+```bash
+docker compose build
 docker compose up -d
 ```
 
-5. **Conectar via VNC**
+5. **Acesso via VNC**
+
 - IP: `localhost`
 - Porta: `5901`
-- Senha padrão: `ghostfox` *(alterável no script ou no Dockerfile)*
+- Senha: `ghostfox`
+- Protocolo: VNC Authentication (sem TLS)
 
 ---
 
-## ⚙️ Requisitos
+## 🛠️ Requisitos
 
 - Docker 20+
 - docker-compose 1.27+
-- Sistema com suporte a `/dev/net/tun` e permissões para `CAP_NET_ADMIN`
+- Suporte a `/dev/net/tun` no host
+- Permissões de `CAP_NET_ADMIN` ativadas no container
 
 ---
 
-## 📌 Notas Técnicas
+## 📌 Considerações Técnicas
 
-- A execução como root evita problemas com permissões ao acessar dispositivos e iniciar serviços como VNC ou VPN.
-- O TurboVNC escutando em `0.0.0.0` melhora a compatibilidade com redes externas, sem a necessidade de configuração extra de NAT local.
-- A pasta `browser-profile` não está mais fixada por padrão, mas pode ser montada manualmente se desejar persistência de sessão.
+- O uso do `Xvnc` evita falhas recorrentes de supervisão
+- A adição automática da rota via gateway Docker evita que a VPN corte o acesso VNC
+- O `start.sh` agora inclui lógica para detectar o gateway e aplicar a rota dinamicamente
 
 ---
 
 ## 📄 Licença
 
-MIT - Feito com dedicação por [Seu Nome/GitHub]
+MIT - Desenvolvido com foco em automação e privacidade

@@ -3,15 +3,15 @@ version: '3.8'
 services:
   ghostfox:
     build: .
-    container_name: ghostfox-v4
+    container_name: ghostfox-v4.3
     hostname: ghostfox
     restart: unless-stopped
     ports:
-      - "5901:5901"
+      - "5901:5901"  # Porta VNC
     volumes:
-      - ./vpn:/vpn:ro
-      - ./scripts:/scripts:ro
-      - ./browser-profile:/home/ghostfox/.config/chromium/Default
+      - ./vpn:/vpn:ro                        # Configuração da VPN
+      - ./scripts:/scripts:ro                # Scripts internos
+      - ./browser-profile:/root/.config/chromium/Default  # Perfil persistente opcional
     environment:
       - DISPLAY=:1
     shm_size: "512mb"
@@ -19,6 +19,8 @@ services:
       - seccomp:unconfined
     cap_add:
       - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
     networks:
       - ghostfox-net
 

@@ -1,21 +1,22 @@
-
-# Docker
-*.img
-*.log
-*.pid
-*.sock
-*.tar
-
 # Logs
 *.log
+*.err
+*.out
 
-# VPN secrets
+# VPN configs (sensíveis)
+vpn/connection.ovpn
 vpn/credentials.txt
 
-# Cache
+# Build artifacts
+*.pid
+*.sock
+
+# VNC profile (opcional se persistência for local)
+browser-profile/
+
+# Containers temporários
+*.tar
+
+# Python cache (caso scripts usem python)
 __pycache__/
 *.pyc
-
-# IDE
-.vscode/
-.idea/
