@@ -63,6 +63,8 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY scripts/ /scripts/
 COPY vpn/ /vpn/
 
+RUN chmod +x /scripts/*.sh
+
 # WORKDIR
 WORKDIR /root
 
