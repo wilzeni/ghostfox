@@ -23,6 +23,7 @@ chromium \
         --disable-dev-shm-usage \
         --disable-extensions \
         --start-maximized \
+        --load-extension=/root/extensions/ghost-stealth \
         --password-store=basic \
         --user-data-dir=/root/.config/chromium \
         "https://ipm.com.br" &
