@@ -21,7 +21,6 @@ chromium \
         --disable-gpu \
         --disable-software-rasterizer \
         --disable-dev-shm-usage \
-        --disable-extensions \
         --start-maximized \
         --load-extension=/root/extensions/ghost-stealth \
         --password-store=basic \
