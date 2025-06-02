@@ -12,6 +12,7 @@ services:
       - ./vpn:/vpn:ro                        # Configuração da VPN
       - ./scripts:/scripts:ro                # Scripts internos
       - ./browser-profile:/root/.config/chromium/Default  # Perfil persistente opcional
+      - ./extensions/ghost-stealth:/root/extensions/ghost-stealth # Adiciona o ghost-steath 
     environment:
       - DISPLAY=:2
     shm_size: "512mb"
