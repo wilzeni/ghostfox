@@ -32,7 +32,7 @@ ghostfox-v4.3/
 │   ├── connection.ovpn
 │   └── credentials.txt
 ├── extensions /
-|    ├──  ghosth-stealth /
+|    ├──  ghost-stealth /
 |         └── background.js
 |         └── content.js
 |         └── manifest.json
