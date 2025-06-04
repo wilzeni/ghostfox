@@ -22,10 +22,11 @@ chromium \
         --disable-software-rasterizer \
         --disable-dev-shm-usage \
         --start-maximized \
+        --force-webrtc-ip-handling-policty=disable_non_proxied_udp \
         --load-extension=/root/extensions/ghost-stealth \
         --password-store=basic \
         --user-data-dir=/root/.config/chromium \
-        "https://ipm.com.br" &
+        "https://google.com.br" &
 
 if [ ! -f /root/.vnc/passwd ]; then
         echo "[start.sh] Senha VNC não encontrada. Criando senha padrão..."
