@@ -2,6 +2,9 @@
   "name": "Ghost Stealth",
   "version": "1.0",
   "description": "Evita detecção de automação",
+  "action": {
+    "default_title": "Esconde sinais de automação do navegador via spoof de propriedades do navigator"
+  },
   "manifest_version": 3, // Padrão atual do Chrome
   "permissions": ["scripting"],	// Permite manipular JS
   "host_permissions": ["<all_urls>"],
