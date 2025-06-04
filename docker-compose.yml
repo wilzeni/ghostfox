@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   ghostfox:
     build: .
-    container_name: ghostfox-v4.5
-    hostname: ghostfox
+    container_name: ghostfox-v4.6
+    hostname: debian-pc
     restart: unless-stopped
     ports:
       - "5902:5902"  # Porta VNC
