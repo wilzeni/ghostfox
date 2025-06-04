@@ -1,4 +1,4 @@
-# Ghostfox v4.3 - Dockerfile
+# Ghostfox v4.6 - Dockerfile
 
 # Base Image
 FROM debian:11-slim
@@ -45,6 +45,19 @@ RUN apt-get update && apt-get install -y \
     dbus-x11 \
     net-tools \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configuração de timezone e locale
+RUN apt-get update && apt-get install -y tzdata locales && \
+    ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata && \
+    sed -i 's/# pt_BR.UTF-8 UTF-8/pt_BR.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen && \
+    update-locale LANG=pt_BR.UTF-8
+
+# Exporta as variáveis no ambiente
+ENV LANG=pt_BR.UTF-8
+ENV LANGUAGE=pt_BR:pt
+ENV LC_ALL=pt_BR.UTF-8
 
 # Instalação TurboVNC
 RUN wget -qO /tmp/turbovnc.deb https://downloads.sourceforge.net/project/turbovnc/2.2.6/turbovnc_2.2.6_amd64.deb && \
