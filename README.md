@@ -1,4 +1,4 @@
-# Ghostfox v4.5
+# Ghostfox v4.6
 
 Ghostfox é um container Docker que oferece um ambiente seguro para navegação web via navegador Chromium, utilizando VPN e acesso remoto por VNC.
 
@@ -6,7 +6,7 @@ Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez
 
 ---
 
-## 🆕 Novidades da versão 4.5
+## 🆕 Novidades da versão 4.6
 
 - 🔁 **Xvnc no lugar de vncserver** para estabilidade no supervisord
 - 🔐 **Execução como root**, eliminando problemas de permissões
@@ -14,13 +14,16 @@ Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez
 - 🧠 **Rota local automática** adicionada no `start.sh` para manter o acesso ao VNC após conexão VPN
 - 📦 **Estrutura mais limpa**, com logs centralizados em `/var/log`
 - 🧩 **Extensão ghost-stealth**, Esconde sinais de automação do navegador e Spoof do Navigator
+- 🌍 **Mudança no locale e timezone para ptbr
+- 🖥️ **Ajuste da resolução e dpi
+- 🥷 **Bloqueio de vazamento de ip via WebRTC
 
 ---
 
 ## 📦 Estrutura do Projeto
 
 ```plaintext
-ghostfox-v4.3/
+ghostfox-v4.6/
 ├── docker-compose.yml
 ├── Dockerfile
 ├── supervisord.conf
@@ -31,8 +34,8 @@ ghostfox-v4.3/
 ├── vpn/
 │   ├── connection.ovpn
 │   └── credentials.txt
-├── extensions /
-|    ├──  ghost-stealth /
+├── extensions/
+|    ├──  ghost-stealth/
 |         └── background.js
 |         └── content.js
 |         └── manifest.json
