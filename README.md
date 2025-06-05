@@ -16,7 +16,7 @@ Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez
 - 🧩 **Extensão ghost-stealth**, Esconde sinais de automação do navegador e Spoof do Navigator
 - 🌍 **Mudança no locale e timezone para ptbr
 - 🖥️ **Ajuste da resolução e dpi
-- 🥷 **Bloqueio de vazamento de ip via WebRTC
+-  🥷 **Bloqueio de vazamento de ip via WebRTC
 
 ---
 
