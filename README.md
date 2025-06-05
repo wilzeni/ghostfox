@@ -14,9 +14,9 @@ Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez
 - 🧠 **Rota local automática** adicionada no `start.sh` para manter o acesso ao VNC após conexão VPN
 - 📦 **Estrutura mais limpa**, com logs centralizados em `/var/log`
 - 🧩 **Extensão ghost-stealth**, Esconde sinais de automação do navegador e Spoof do Navigator
-- 🌍 **Mudança no locale e timezone para ptbr
-- 🖥️ **Ajuste da resolução e dpi
-- 🚫 **Bloqueio de vazamento de ip via WebRTC
+- 🌍 Mudança no locale e timezone para ptbr
+- 🖥️ Ajuste da resolução e dpi
+- 🚫 Bloqueio de vazamento de ip via WebRTC
 
 ---
 
