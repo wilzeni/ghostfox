@@ -19,7 +19,7 @@ Esta versão é um **refinamento da v4.0**, com melhorias voltadas para robustez
 ## 📦 Estrutura do Projeto
 
 ```plaintext
-ghostfox-v4.6/
+ghostfox-v4.9/
 ├── docker-compose.yml
 ├── Dockerfile
 ├── supervisord.conf
@@ -31,9 +31,9 @@ ghostfox-v4.6/
 │   ├── connection.ovpn
 │   └── credentials.txt
 ├── extensions/
-|    ├──  ghost-stealth/
-|         └── background.js
-|         └── content.js
+|    ├── ghost-stealth/
+|         ├── background.js
+|         ├── content.js
 |         └── manifest.json
 ```
 
@@ -44,8 +44,8 @@ ghostfox-v4.6/
 1. **Clone ou extraia o projeto**
 
 ```bash
-git clone https://github.com/seuprojeto/ghostfox-v4.3.git
-cd ghostfox-v4.3
+git clone https://github.com/seuprojeto/ghostfox-v4.9.git
+cd ghostfox-v4.9
 ```
 
 2. **Adicione os arquivos de VPN**
@@ -87,14 +87,17 @@ docker compose up -d
 - docker-compose 1.27+
 - Suporte a `/dev/net/tun` no host
 - Permissões de `CAP_NET_ADMIN` ativadas no container
+- VPN limitada somente para o Brasil
 
 ---
 
 ## 📌 Considerações Técnicas
 
-- O uso do `Xvnc` evita falhas recorrentes de supervisão
-- A adição automática da rota via gateway Docker evita que a VPN corte o acesso VNC
-- O `start.sh` agora inclui lógica para detectar o gateway e aplicar a rota dinamicamente
+- A extensão Ghost Stealth é responsável por camuflar características do navegador e do sistema operacional que são frequentemente exploradas por técnicas de fingerprinting (coleta de impressões digitais do navegador) e deteção de automação/bots, intercepta e modifica APIs JavaScript usadas para coletar informações do ambiente do usuário. Ele age como uma camada de camuflagem, tornando o navegador mais parecido com o de um humano real.
+- WebRTC (IP Leaking Protection): O WebRTC permite comunicação em tempo real entre navegadores, mas também pode expor o endereço IP real do dispositivo, mesmo quando conectado via VPN ou proxy. A extensão protege contra técnicas de WebRTC IP leak, que sites usam para verificar se você está usando proxy/VPN, ou para identificar múltiplos usuários por trás da mesma rede.
+- Locale e Timezone: Muitos sites usam o fuso horário (timezone) e as configurações regionais (locale, como idioma, formatos de data/hora e moeda) como parte do fingerprint do navegador. Ao definir o sistema e o navegador para usarem pt-BR e fuso horário de São Paulo, o ambiente se torna coerente com um usuário real brasileiro, reduzindo significativamente a probabilidade de bloqueios ou desafios (CAPTCHAs, bloqueios de sessão, etc).
+- A adição automática da rota via gateway Docker evita que a VPN corte o acesso VNC.
+- O `start.sh` agora inclui lógica para detectar o gateway e aplicar a rota dinamicamente.
 
 ---
 
