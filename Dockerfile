@@ -1,4 +1,4 @@
-# Ghostfox v4.6 - Dockerfile
+# Ghostfox v4.9 com suporte a TurboVNC + GPU
 
 # Base Image
 FROM debian:11-slim
@@ -7,8 +7,9 @@ FROM debian:11-slim
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:2
 
-# Instalação de Dependências
+# Instalação de dependências básicas
 RUN apt-get update && apt-get install -y \
+    procps \
     xorg \
     fluxbox \
     chromium \
@@ -22,25 +23,20 @@ RUN apt-get update && apt-get install -y \
     x11-xserver-utils \
     xauth \
     libgl1-mesa-dri \
+    libgl1-mesa-glx \
+    mesa-utils \
+    libegl1 \
+    libnss3 \
+    libasound2 \
+    libxss1 \
     libxcomposite1 \
     libxdamage1 \
     libxrandr2 \
     libatk1.0-0 \
     libgtk-3-0 \
-    libasound2 \
-    libnss3 \
-    libxss1 \
-    libxtst6 \
     libx11-xcb1 \
     fonts-liberation \
     xdg-utils \
-    libjpeg-turbo-progs \
-    libxfixes3 \
-    libxcursor1 \
-    libxinerama1 \
-    libxshmfence1 \
-    libegl1 \
-    libgl1-mesa-glx \
     pulseaudio \
     dbus-x11 \
     net-tools \
@@ -59,19 +55,21 @@ ENV LANG=pt_BR.UTF-8
 ENV LANGUAGE=pt_BR:pt
 ENV LC_ALL=pt_BR.UTF-8
 
-# Instalação TurboVNC
+# Instalação do TurboVNC
 RUN wget -qO /tmp/turbovnc.deb https://downloads.sourceforge.net/project/turbovnc/2.2.6/turbovnc_2.2.6_amd64.deb && \
-    apt-get install -y /tmp/turbovnc.deb && \
-    rm /tmp/turbovnc.deb
+    apt-get install -y /tmp/turbovnc.deb && rm /tmp/turbovnc.deb
+
+# Instalação do VirtualGL
+RUN wget -qO /tmp/virtualgl.deb https://downloads.sourceforge.net/project/virtualgl/3.0.2/virtualgl_3.0.2_amd64.deb && \
+    apt-get install -y /tmp/virtualgl.deb && rm /tmp/virtualgl.deb
 
 # Diretórios essenciais
 RUN mkdir -p /etc/supervisor/conf.d /scripts /vpn /root/logs /root/.vnc
 
 # Definir senha do VNC para root
-RUN echo "devsc1" | /opt/TurboVNC/bin/vncpasswd -f > /root/.vnc/passwd && \
-    chmod 600 /root/.vnc/passwd
+RUN echo "devsc1" | /opt/TurboVNC/bin/vncpasswd -f > /root/.vnc/passwd && chmod 600 /root/.vnc/passwd
 
-# Copiar arquivos do projeto
+# Copia arquivos locais para o container
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY scripts/ /scripts/
 COPY vpn/ /vpn/
