@@ -1,7 +1,7 @@
 services:
   ghostfox:
     build: .
-    container_name: ghostfox-v4.6
+    container_name: ghostfox-v4.9
     hostname: debian-pc
     restart: unless-stopped
     ports:
@@ -13,7 +13,7 @@ services:
       - ./extensions/ghost-stealth:/root/extensions/ghost-stealth # Adiciona o ghost-steath 
     environment:
       - DISPLAY=:2
-    shm_size: "512mb"
+    shm_size: "1gb"
     security_opt:
       - seccomp:unconfined
     cap_add:
