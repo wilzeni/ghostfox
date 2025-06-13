@@ -1,32 +1,49 @@
-// Executa imediatamente
-(() => {
-
-// Função utilitária para sobreescrever propriedades da API do navegador
-const override = (prop, value) => {
-  Object.defineProperty(navigator, prop, {
-    get: () => value,
-    configurable: true // permite sobreescrever novamente se necessário
-  });
-};
-
-// Remove navigator.webdriver
-Object.defineProperty(navigator, "webdriver", {
+// navigator.webdriver
+Object.defineProperty(navigator, 'webdriver', {
   get: () => false,
 });
 
-// Fake languages
-Object.defineProperty(navigator, "languages", {
-  get: () => ["pt-BR", "pt", "en"],
+// navigator.languages
+Object.defineProperty(navigator, 'languages', {
+  get: () => ['en-US', 'en']
 });
 
-// Fake hardwareConcurrency
-Object.defineProperty(navigator, "hardwareConcurrency", {
-  get: () => 4,
+// navigator.plugins
+Object.defineProperty(navigator, 'plugins', {
+  get: () => [1, 2, 3], // dummy non-zero array
 });
 
-// Fake userAgent (opcional)
-Object.defineProperty(navigator, "userAgent", {
-  get: () => "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+// navigator.mimeTypes
+Object.defineProperty(navigator, 'mimeTypes', {
+  get: () => [1, 2, 3], // dummy non-zero array
 });
 
-})();
+// navigator.hardwareConcurrency
+Object.defineProperty(navigator, 'hardwareConcurrency', {
+  get: () => 4, // typical quad-core CPU
+});
+
+// navigator.deviceMemory
+Object.defineProperty(navigator, 'deviceMemory', {
+  get: () => 8, // typical desktop RAM in GB
+});
+
+// navigator.platform
+Object.defineProperty(navigator, 'platform', {
+  get: () => 'Win32', // or 'Linux x86_64' if you prefer
+});
+
+// navigator.userAgent
+Object.defineProperty(navigator, 'userAgent', {
+  get: () => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+             'Chrome/125.0.0.0 Safari/537.36',
+});
+
+// navigator.permissions.query spoof (to avoid headless detection)
+const originalQuery = window.navigator.permissions.query;
+window.navigator.permissions.query = (parameters) => (
+  parameters.name === 'notifications'
+    ? Promise.resolve({ state: Notification.permission })
+    : originalQuery(parameters)
+);
